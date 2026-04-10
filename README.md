@@ -17,7 +17,22 @@ Similar to the transmitter , the FSM here as well makes use of 3 states:
 IDLE: Waits for data pull down after which goes to start.
 START: Runs 8 bit baud counter and storing the received bit into a register.
 STOP: After 8 bits are received , data is pulled high and the 1byte register is sent as output.
-                                                                    
+
+## UART_100Bytes_Memory file
+Small mini project incorporating both UART Transmit and Receive and also 100 byte memory storage. 
+Uses specific sequences for enabling storing , transmitting and type of transmission
+Sequences include words: START , DYNAMIC , READ and COUNT
+These words have to be passed bitwise via UART. 
+Once START received , The next set of bytes are stored in the 100 byte memory. Overflow causes overwriting.
+Once the memory is full , it automatically reverts to IDLE state. If the memory isn't full , sending the ENTER key equivalent ( <CR> <LF> ) will send it back to IDLE state.
+COUNT tells you the amount of space that is occupied in the memory.
+READ basically transmits back whatever is stored in the memory. Note that it doesn't erase the contents of the memory.
+DYNAMIC is a slightly modified version of READ where in you will have to type in a ascii equivalent of a any number between 0 to 99 and it will fetch you that many bytes from the right.
+
+It is implemented again on the ZYBO board.
+The code has basic flaws which doesn't cause any errors but can be fixed if time permits. For example: I have incorporated only capital letters for the specific sequence , small alphabets can be added.
+
+
 ## Board & Software
 Has been tested and verified on the ZYBO board using Xilinx Vivado
 Communication was done between the board and the CPU using a TTL UART module.
